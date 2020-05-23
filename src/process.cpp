@@ -34,12 +34,12 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-
+#include <sys/time.h>
 #include "conninode.h"
 #include "inode2prog.h"
 #include "nethogs.h"
 #include "process.h"
-#include "convert-time.cpp"
+
 
 extern timeval curtime;
 extern bool catchall;
@@ -69,6 +69,18 @@ ProcList *processes;
 #define KB (1UL << 10)
 #define MB (1UL << 20)
 #define GB (1UL << 30)
+
+long long getmstime(timeval *in)
+{
+    timeval tv;
+    long long tm;
+    if(in==NULL)
+      gettimeofday(& tv, NULL);
+    else
+      tv = *in;  
+    tm = (long long)(tv.tv_sec *1000 + (tv.tv_usec + 500) /1000);
+    return tm;
+}
 
 float tomb(u_int64_t bytes) { return ((double)bytes) / MB; }
 float tokb(u_int64_t bytes) { return ((double)bytes) / KB; }

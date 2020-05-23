@@ -1,7 +1,7 @@
 #include "nethogs.cpp"
 #include <fcntl.h>
 #include <vector>
-
+#include <sys/time.h>
 #ifdef __linux__
 #include <linux/capability.h>
 #include <linux/limits.h>
@@ -18,6 +18,19 @@ static suseconds_t last_refresh_time = 0;
 static fd_set pc_loop_fd_set;
 static std::vector<int> pc_loop_fd_list;
 static bool pc_loop_use_select = true;
+
+
+long long getmstime(timeval *in)
+{
+    timeval tv;
+    long long tm;
+    if(in==NULL)
+      gettimeofday(& tv, NULL);
+    else
+      tv = *in;  
+    tm = (long long)(tv.tv_sec *1000 + (tv.tv_usec + 500) /1000);
+    return tm;
+}
 
 static void versiondisplay(void) { std::cout << version << "\n"; }
 

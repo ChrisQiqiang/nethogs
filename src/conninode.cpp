@@ -24,7 +24,6 @@
 #include <map>
 #include <netinet/in.h>
 #include <stdlib.h>
-#include "convert-time.cpp"
 #include "conninode.h"
 #include "nethogs.h"
 

@@ -28,7 +28,6 @@
 #include <ifaddrs.h>
 #include <net/if.h>
 #include <sys/socket.h>
-#include "convert-time.cpp"
 
 bool selected(int devc, char **devicenames, char *devicename) {
   if (devc == 0)

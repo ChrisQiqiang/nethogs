@@ -27,7 +27,6 @@
 #include <pwd.h>
 #include <string>
 #include <sys/types.h>
-#include "convert-time.cpp"
 
 #include "nethogs.h"
 #include "process.h"

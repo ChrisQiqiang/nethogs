@@ -3,7 +3,6 @@ extern "C" {
 }
 
 #include "nethogs.cpp"
-#include "convert-time.cpp"
 #include <cstring>
 #include <errno.h>
 #include <fcntl.h>
@@ -11,7 +10,7 @@ extern "C" {
 #include <map>
 #include <memory>
 #include <vector>
-
+#include <sys/time.h>
 //////////////////////////////
 extern ProcList *processes;
 extern Process *unknowntcp;
@@ -36,6 +35,18 @@ static bool pc_loop_use_select = true;
 
 static handle *handles = NULL;
 
+long long getmstime(timeval *in)
+{
+    timeval tv;
+    long long tm;
+    if(in==NULL)
+      gettimeofday(& tv, NULL);
+    else
+      tv = *in;  
+    tm = (long long)(tv.tv_sec *1000 + (tv.tv_usec + 500) /1000);
+    return tm;
+}
+
 static std::pair<int, int> create_self_pipe() {
   int pfd[2];
   if (pipe(pfd) == -1)
@@ -49,6 +60,8 @@ static std::pair<int, int> create_self_pipe() {
 
   return std::make_pair(pfd[0], pfd[1]);
 }
+
+
 
 static bool wait_for_next_trigger() {
   if (pc_loop_use_select) {

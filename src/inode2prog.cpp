@@ -37,7 +37,6 @@
 #include <unistd.h>
 
 #include "inode2prog.h"
-#include "convert-time.cpp"
 
 extern bool bughuntmode;
 

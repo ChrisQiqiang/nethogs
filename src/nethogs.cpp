@@ -21,7 +21,6 @@
  */
 
 #include "nethogs.h"
-#include "convert-time.cpp"
 #include <cassert>
 #include <csignal>
 #include <cstdarg>
