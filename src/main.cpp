@@ -20,7 +20,7 @@ static std::vector<int> pc_loop_fd_list;
 static bool pc_loop_use_select = true;
 
 
-long long getmstime(timeval *in)
+static long long getmstime(timeval *in)
 {
     timeval tv;
     long long tm;

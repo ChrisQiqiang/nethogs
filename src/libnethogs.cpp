@@ -35,7 +35,7 @@ static bool pc_loop_use_select = true;
 
 static handle *handles = NULL;
 
-long long getmstime(timeval *in)
+static long long getmstime(timeval *in)
 {
     timeval tv;
     long long tm;

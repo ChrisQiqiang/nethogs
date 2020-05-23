@@ -40,7 +40,7 @@ ConnList *connections = NULL;
 extern Process *unknownudp;
 
 
-long long getmstime(timeval *in)
+static long long getmstime(timeval *in)
 {
     timeval tv;
     long long tm;

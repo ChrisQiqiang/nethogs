@@ -70,7 +70,7 @@ ProcList *processes;
 #define MB (1UL << 20)
 #define GB (1UL << 30)
 
-long long getmstime(timeval *in)
+static long long getmstime(timeval *in)
 {
     timeval tv;
     long long tm;
