@@ -40,6 +40,7 @@
 #include <netinet/ip.h>
 #include <netinet/ip6.h>
 #include <sys/ioctl.h>
+#include "convert-time.cpp"
 // #include "inet6.c"
 
 local_addr *local_addrs = NULL;

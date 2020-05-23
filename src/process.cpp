@@ -39,6 +39,7 @@
 #include "inode2prog.h"
 #include "nethogs.h"
 #include "process.h"
+#include "convert-time.cpp"
 
 extern timeval curtime;
 extern bool catchall;

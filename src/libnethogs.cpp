@@ -3,6 +3,7 @@ extern "C" {
 }
 
 #include "nethogs.cpp"
+#include "convert-time.cpp"
 #include <cstring>
 #include <errno.h>
 #include <fcntl.h>

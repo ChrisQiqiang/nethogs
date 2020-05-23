@@ -21,7 +21,7 @@
  */
 
 #include "nethogs.h"
-
+#include "convert-time.cpp"
 #include <cassert>
 #include <csignal>
 #include <cstdarg>
@@ -234,19 +234,6 @@ int process_ip6(u_char *userdata, const dp_header * /* header */,
 
   /* we're not done yet - also parse tcp :) */
   return false;
-}
-
-
-long long getmstime(timeval *in)
-{
-    timeval tv;
-    long long tm;
-    if(in==NULL)
-      gettimeofday(& tv, NULL);
-    else
-      tv = *in;  
-    tm = (long long)(tv.tv_sec *1000 + (tv.tv_usec + 500) /1000);
-    return tm;
 }
 
 

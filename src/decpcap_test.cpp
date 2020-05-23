@@ -21,6 +21,7 @@
  */
 
 #include <iostream>
+#include "convert-time.cpp"
 
 extern "C" {
 #include "decpcap.h"
