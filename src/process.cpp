@@ -88,8 +88,8 @@ void process_init() {
   }
 }
 
-int Process::getLastPacket() {
-  int lastpacket = 0;
+long long Process::getLastPacket() {
+  long long  lastpacket = 0;
   ConnList *curconn = connections;
   while (curconn != NULL) {
     assert(curconn != NULL);
@@ -109,7 +109,7 @@ static void sum_active_connections(Process *process_ptr, u_int64_t &sum_sent,
   ConnList *curconn = process_ptr->connections;
   ConnList *previous = NULL;
   while (curconn != NULL) {
-    if (curconn->getVal()->getLastPacket() <= curtime.tv_sec - CONNTIMEOUT) {
+    if (curconn->getVal()->getLastPacket() <= getmstime(curtime) - CONNTIMEOUT) {
       /* capture sent and received totals before deleting */
       process_ptr->sent_by_closed_bytes += curconn->getVal()->sumSent;
       process_ptr->rcvd_by_closed_bytes += curconn->getVal()->sumRecv;
@@ -393,7 +393,7 @@ void remove_timed_out_processes() {
   for (ProcList *curproc = processes; curproc != NULL;
        curproc = curproc->next) {
     if ((curproc->getVal()->getLastPacket() + PROCESSTIMEOUT <=
-         curtime.tv_sec) &&
+         getmstime(curtime)) &&
         (curproc->getVal() != unknowntcp) &&
         (curproc->getVal() != unknownudp) && (curproc->getVal() != unknownip)) {
       if (DEBUG)

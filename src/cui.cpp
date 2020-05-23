@@ -65,7 +65,7 @@ const char *COLUMN_FORMAT_RECEIVED = "%11.3f";
 
 // All descriptions are padded to 6 characters in length with spaces
 const char *const desc_view_mode[VIEWMODE_COUNT] = {
-    "KB/sec", "KB    ", "B     ", "MB    ", "MB/sec", "GB/sec"};
+    "KB    ","KB/sec", "B     ", "MB    ", "MB/sec", "GB/sec"};
 
 class Line {
 public:

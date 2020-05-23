@@ -12,7 +12,7 @@
 
 // The self_pipe is used to interrupt the select() in the main loop
 static std::pair<int, int> self_pipe = std::make_pair(-1, -1);
-static time_t last_refresh_time = 0;
+static suseconds_t last_refresh_time = 0;
 
 // selectable file descriptors for the main loop
 static fd_set pc_loop_fd_set;
@@ -32,7 +32,7 @@ static void help(bool iserror) {
   output << "		-V : prints version.\n";
   output << "		-h : prints this help.\n";
   output << "		-b : bughunt mode - implies tracemode.\n";
-  output << "		-d : delay for update refresh rate in seconds. default "
+  output << "		-d : delay for update refresh rate in microseconds. default "
             "is 1.\n";
   output << "		-v : view mode (0 = KB/s, 1 = total KB, 2 = total B, 3 "
             "= total MB, 4 = MB/s, 5 = GB/s). default is 0.\n";
@@ -164,7 +164,7 @@ int main(int argc, char **argv) {
       sortRecv = false;
       break;
     case 'd':
-      refreshdelay = (time_t)atoi(optarg);
+      refreshdelay = (suseconds_t)atoi(optarg);
       break;
     case 'v':
       viewMode = atoi(optarg) % VIEWMODE_COUNT;
@@ -314,7 +314,7 @@ int main(int argc, char **argv) {
         packets_read = true;
     }
 
-    time_t const now = ::time(NULL);
+    suseconds_t const now = ::getmstime(NULL);
     if (last_refresh_time + refreshdelay <= now) {
       last_refresh_time = now;
       if ((!DEBUG) && (!tracemode)) {

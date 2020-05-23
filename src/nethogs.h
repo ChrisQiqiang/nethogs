@@ -64,8 +64,8 @@
 
 // viewMode: how to represent numbers
 enum {
-  VIEWMODE_KBPS,
   VIEWMODE_TOTAL_KB,
+  VIEWMODE_KBPS,
   VIEWMODE_TOTAL_B,
   VIEWMODE_TOTAL_MB,
   VIEWMODE_MBPS,

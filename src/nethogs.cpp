@@ -51,7 +51,7 @@ extern "C" {
 
 extern Process *unknownudp;
 
-time_t refreshdelay = 1;
+suseconds_t refreshdelay = 1;
 unsigned refreshlimit = 0;
 unsigned refreshcount = 0;
 unsigned processlimit = 0;
@@ -234,6 +234,17 @@ int process_ip6(u_char *userdata, const dp_header * /* header */,
   /* we're not done yet - also parse tcp :) */
   return false;
 }
+
+
+long long getmstime(struct timeval tv)
+{
+    if(tv==NULL)
+      gettimeofday(& tv, NULL);
+    long long tm;
+    tm = (long long)tv.tv_sec *1000 + tv.tv_usec /1000;
+    return tm;
+}
+
 
 class handle {
 public:

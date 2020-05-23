@@ -42,7 +42,7 @@ void PackList::add(Packet *p) {
     return;
   }
 
-  if (content->val->time.tv_sec == p->time.tv_sec) {
+  if (getmstime(content->val->time) == getmstime(p->time)) {
     content->val->len += p->len;
     return;
   }
@@ -58,9 +58,8 @@ u_int64_t PackList::sumanddel(timeval t) {
   PackListNode *previous = NULL;
 
   while (current != NULL) {
-    // std::cout << "Comparing " << current->val->time.tv_sec << " <= " <<
-    // t.tv_sec - PERIOD << endl;
-    if (current->val->time.tv_sec <= t.tv_sec - PERIOD) {
+
+    if (getmstime(current->val->time) <= getmstime(t) - PERIOD) {
       if (current == content)
         content = NULL;
       else if (previous != NULL)
@@ -96,7 +95,7 @@ Connection::Connection(Packet *packet) {
     recv_packets->add(packet);
     refpacket = packet->newInverted();
   }
-  lastpacket = packet->time.tv_sec;
+  lastpacket = getmstime(packet->time);
   if (DEBUG)
     std::cout << "New reference packet created at " << refpacket << std::endl;
 }
@@ -133,7 +132,7 @@ Connection::~Connection() {
 
 /* the packet will be freed by the calling code */
 void Connection::add(Packet *packet) {
-  lastpacket = packet->time.tv_sec;
+  lastpacket = getmstime(packet->time);
   if (packet->Outgoing()) {
     if (DEBUG) {
       std::cout << "Outgoing: " << packet->len << std::endl;

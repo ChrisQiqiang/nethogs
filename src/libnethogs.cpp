@@ -26,7 +26,7 @@ typedef std::map<void *, NethogsMonitorRecord> NethogsRecordMap;
 static NethogsRecordMap monitor_record_map;
 
 static int monitor_refresh_delay = 1;
-static time_t monitor_last_refresh_time = 0;
+static suseconds_t monitor_last_refresh_time = 0;
 
 // selectable file descriptors for the main loop
 static fd_set pc_loop_fd_set;
@@ -177,7 +177,7 @@ static void nethogsmonitor_handle_update(NethogsMonitorCallback cb) {
     /* remove timed-out processes (unless it's one of the unknown process)
      */
     if ((curproc->getVal()->getLastPacket() + PROCESSTIMEOUT <=
-         curtime.tv_sec) &&
+         getmstime(curtime)) &&
         (curproc->getVal() != unknowntcp) &&
         (curproc->getVal() != unknownudp) && (curproc->getVal() != unknownip)) {
       if (DEBUG)
@@ -315,7 +315,7 @@ int nethogsmonitor_loop_devices(NethogsMonitorCallback cb, char *filter,
       current_handle = current_handle->next;
     }
 
-    time_t const now = ::time(NULL);
+    suseconds_t const now = ::time(NULL);
     if (monitor_last_refresh_time + monitor_refresh_delay <= now) {
       monitor_last_refresh_time = now;
       nethogsmonitor_handle_update(cb);

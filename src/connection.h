@@ -79,7 +79,7 @@ public:
    */
   void add(Packet *packet);
 
-  int getLastPacket() { return lastpacket; }
+  long long getLastPacket() { return lastpacket; }
 
   /* sums up the total bytes used
    * and removes 'old' packets. */
@@ -96,7 +96,7 @@ public:
 private:
   PackList *sent_packets;
   PackList *recv_packets;
-  int lastpacket;
+  long long  lastpacket;
 };
 
 /* Find the connection this packet belongs to */

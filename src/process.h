@@ -89,7 +89,7 @@ public:
     if (DEBUG)
       std::cout << "PROC: Process deleted at " << this << std::endl;
   }
-  int getLastPacket();
+  long long getLastPacket();
 
   void gettotal(u_int64_t *recvd, u_int64_t *sent);
   void getkbps(float *recvd, float *sent);
