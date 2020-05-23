@@ -46,7 +46,7 @@ long long getmstime(timeval *in)
       gettimeofday(& tv, NULL);
     else
       tv = *in;  
-    tm = (long long)tv.tv_sec *1000 + *tv.tv_usec /1000;
+    tm = (long long)(tv.tv_sec *1000 + (tv.tv_usec + 500) /1000);
     return tm;
 }
 
