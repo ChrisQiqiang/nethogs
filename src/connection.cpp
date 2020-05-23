@@ -36,6 +36,16 @@
 ConnList *connections = NULL;
 extern Process *unknownudp;
 
+
+long long getmstime(struct timeval tv)
+{
+    if(tv==NULL)
+      gettimeofday(& tv, NULL);
+    long long tm;
+    tm = (long long)tv.tv_sec *1000 + tv.tv_usec /1000;
+    return tm;
+}
+
 void PackList::add(Packet *p) {
   if (content == NULL) {
     content = new PackListNode(new Packet(*p));
