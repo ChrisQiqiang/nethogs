@@ -32,17 +32,21 @@
 #include "connection.h"
 #include "nethogs.h"
 #include "process.h"
+#include <sys/time.h>
 
 ConnList *connections = NULL;
 extern Process *unknownudp;
 
 
-long long getmstime(struct timeval tv)
+long long getmstime(timeval *in)
 {
-    if(tv==NULL)
-      gettimeofday(& tv, NULL);
+    timeval tv;
     long long tm;
-    tm = (long long)tv.tv_sec *1000 + tv.tv_usec /1000;
+    if(in==NULL)
+      gettimeofday(& tv, NULL);
+    else
+      tv = *in;  
+    tm = (long long)tv.tv_sec *1000 + *tv.tv_usec /1000;
     return tm;
 }
 
@@ -52,7 +56,7 @@ void PackList::add(Packet *p) {
     return;
   }
 
-  if (getmstime(content->val->time) == getmstime(p->time)) {
+  if (getmstime(&content->val->time) == getmstime(&p->time)) {
     content->val->len += p->len;
     return;
   }
@@ -69,7 +73,7 @@ u_int64_t PackList::sumanddel(timeval t) {
 
   while (current != NULL) {
 
-    if (getmstime(current->val->time) <= getmstime(t) - PERIOD) {
+    if (getmstime(&current->val->time) <= getmstime(&t) - PERIOD) {
       if (current == content)
         content = NULL;
       else if (previous != NULL)
@@ -105,7 +109,7 @@ Connection::Connection(Packet *packet) {
     recv_packets->add(packet);
     refpacket = packet->newInverted();
   }
-  lastpacket = getmstime(packet->time);
+  lastpacket = getmstime(&packet->time);
   if (DEBUG)
     std::cout << "New reference packet created at " << refpacket << std::endl;
 }
@@ -142,7 +146,7 @@ Connection::~Connection() {
 
 /* the packet will be freed by the calling code */
 void Connection::add(Packet *packet) {
-  lastpacket = getmstime(packet->time);
+  lastpacket = getmstime(&packet->time);
   if (packet->Outgoing()) {
     if (DEBUG) {
       std::cout << "Outgoing: " << packet->len << std::endl;

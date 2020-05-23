@@ -314,7 +314,7 @@ int main(int argc, char **argv) {
         packets_read = true;
     }
 
-    suseconds_t const now = ::getmstime(NULL);
+    suseconds_t const now = getmstime(NULL);
     if (last_refresh_time + refreshdelay <= now) {
       last_refresh_time = now;
       if ((!DEBUG) && (!tracemode)) {

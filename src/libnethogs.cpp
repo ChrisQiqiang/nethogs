@@ -177,7 +177,7 @@ static void nethogsmonitor_handle_update(NethogsMonitorCallback cb) {
     /* remove timed-out processes (unless it's one of the unknown process)
      */
     if ((curproc->getVal()->getLastPacket() + PROCESSTIMEOUT <=
-         getmstime(curtime)) &&
+         getmstime(&curtime)) &&
         (curproc->getVal() != unknowntcp) &&
         (curproc->getVal() != unknownudp) && (curproc->getVal() != unknownip)) {
       if (DEBUG)

@@ -37,6 +37,7 @@
 #include <netinet/ip6.h>
 #include <netinet/tcp.h>
 #include <netinet/udp.h>
+#include <sys/time.h>
 
 #include "cui.h"
 
@@ -236,12 +237,15 @@ int process_ip6(u_char *userdata, const dp_header * /* header */,
 }
 
 
-long long getmstime(struct timeval tv)
+long long getmstime(timeval *in)
 {
-    if(tv==NULL)
-      gettimeofday(& tv, NULL);
+    timeval tv;
     long long tm;
-    tm = (long long)tv.tv_sec *1000 + tv.tv_usec /1000;
+    if(in==NULL)
+      gettimeofday(& tv, NULL);
+    else
+      tv = *in;  
+    tm = (long long)tv.tv_sec *1000 + *tv.tv_usec /1000;
     return tm;
 }
 
